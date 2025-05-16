@@ -9,17 +9,30 @@
 /* Add more styling as needed */
 
 /*header*/
-header {
-  font-family: poppins;
-  font-weight: 700;
-}
+header{
+	background: white;
+	font-family: poppins;
+	font-weight: 700;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	height: 70px;
+	width: 100%;
+
+	& img{
+		width: 100%;
+	}
+
 
 /* Add Styling Gallery Two Section */
 .gallery-one-section {
+border-bottom: 2px solid #21212166;
   max-width: 1200px;
-  width: 100%;
+  width: 90%;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(288px, 1fr));
+  justify-content: center;
   gap: 20px; /* space between grid items */
   padding: 20px;
 }
@@ -76,16 +89,28 @@ header {
 /* Add more styling as needed */
 /************** SIRJAEY'S PART (PROFILE)*********************** */
 #sirjaey {
+	border-bottom: 2px solid #21212166;
+	display: flex;
+	justify-content: space-between;
+	margin: 0 auto;
+	padding: 45px 0;
+	width: 90%;
+}
+.profile {
+	display: flex;
+	gap: 20px;
+
+	.avatar{
+		img{
+			border-radius: 10%;
+		}
+	}
   border-bottom: 2px solid #21212166;
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
   padding-bottom: 20px;
   width: 90%;
-}
-.profile {
-  display: flex;
-  gap: 20px;
 }
 .bio-data {
   display: flex;
@@ -122,6 +147,48 @@ header {
 /*tabeit's*/
 
 .footer {
+	font-size: 14px;
+	color: #3f3f3f;
+	display: flex;
+	align-items: center;
+	height: 60px;
+}
+
+
+/* Yenisa Responsive Design Part - Start */
+@media (max-width: 430px){
+
+	#sirjaey{
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: 90%;
+	}
+	.profile{
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 20px;
+		margin-bottom: 20px;
+	}
+	.bio-data{
+		text-align: center;
+		gap: 20px;
+	}
+	.new-post {
+		width: 80%;
+	}
+	
+	.new-post-btn{
+		width: 100%;
+
+		button{
+			height: 52px;
+			width: inherit;
+		}
+	}
+
+}
   font-size: 14px;
   color: #3f3f3f;
 }

@@ -13,6 +13,7 @@ Each group member is responsible for one section:
 | @kolu & @abuchi | Gallery cards (images/text) |
 | @tabeit         | Footer content              |
 | @adetomiwa      | mobile Reaponsiveness       |
+| @yenisaa        | mobile Reaponsiveness       |
 | @aayomide       | Desktop Reaponsiveness      |
 
 ## 🚀 How to Contribute
