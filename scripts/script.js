@@ -98,3 +98,68 @@ function addModalEventListeners() {
     });
   });
 }
+
+//Opeyemi's part
+const imageName = document.getElementById("imageName");
+const imageFile = document.getElementById("imageFile");
+
+imageName.addEventListener("change", (e) => console.log(e.target.value));
+imageFile.addEventListener("change", (e) => console.log(e.target.files[0]));
+
+const modal = document.getElementById("modalBackdrop");
+
+const handleHide = () => {
+  modal.classList.remove("hidden"); // Show modal
+};
+
+const addImage = document.querySelector(".new-post-btn");
+addImage.addEventListener("click", handleHide);
+
+modal.addEventListener("click", (e) => {
+  if (e.target === modal) {
+    modal.classList.add("hidden");
+  }
+});
+
+// Handle form submission to add image to the gallery
+document.getElementById("uploadForm").addEventListener("submit", function (e) {
+  e.preventDefault(); // Prevent actual form submission
+
+  const name = imageName.value.trim();
+  const file = imageFile.files[0];
+
+  if (!name || !file) {
+    alert("Please enter an image name and select a file.");
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = function (event) {
+    const gallery = document.querySelector(".gallery-one-section");
+    const newCard = document.createElement("div");
+
+    newCard.innerHTML = `
+      <div class="grid-one-item">
+        <img
+         class="image-one-section"
+         src="${event.target.result}"
+         alt="${name}"
+       />
+        <div class="caption">
+          <div>${name}</div>
+          <div><img src="./assets/Union.svg" alt="love-icon" /></div>
+        </div>
+      </div>
+    `;
+
+    gallery.insertAdjacentElement("afterbegin", newCard);
+
+    // Reset form and hide modal
+    modal.classList.add("hidden");
+    imageName.value = "";
+    imageFile.value = "";
+  };
+
+  reader.readAsDataURL(file);
+});
