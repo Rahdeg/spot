@@ -57,10 +57,23 @@ export function loadCards() {
                 />
                 <div class="caption">
                 <div>${card.title}</div>
-                <div><img src=${card.icon} alt=${card.iconName} /></div>
+                <div>
+                <i class="fa-solid fa-heart like-icon text-gray-400 cursor-pointer"></i>
                 </div>
             </div>
         `;
+        // js for toggling color
+        const likeIcons = document.querySelectorAll(".like-icon");
+
+likeIcons.forEach((icon) => {
+  icon.addEventListener("click", () => {
+    icon.classList.toggle("text-red-500");  // red when liked
+    icon.classList.toggle("text-gray-400"); // gray when unliked
+  });
+});
+// toggling ends
+
+
     gallery.insertAdjacentElement("beforeend", tempDiv.firstElementChild);
   });
   addModalEventListeners();
