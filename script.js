@@ -1,3 +1,4 @@
+
 const cards = [
 	{
 		id: 1,
@@ -53,6 +54,7 @@ function loadCards() {
                 class="image-one-section"
                 src= ${card.image}
                 alt= ${card.title}
+				data-title="${card.title}"
                 />
                 <div class="caption">
                 <div>${card.title}</div>
@@ -60,7 +62,44 @@ function loadCards() {
                 </div>
             </div>
         `;
-			gallery.insertAdjacentElement("beforeend", tempDiv);
+			gallery.insertAdjacentElement("beforeend", tempDiv.firstElementChild);
 		});
+		addModalEventListeners()
 }
+
+
+//	Abuchi's Part
+function addModalEventListeners() {
+    const images = document.querySelectorAll(".image-one-section");
+    const modalContainer = document.querySelector(".image-modal-container");
+
+    images.forEach(image => {
+        image.addEventListener("click", () => {
+            const imageUrl = image.src;
+            const imageTitle = image.dataset.title;
+
+            // Dynamically build the modal structure
+            const modal = document.createElement("div");
+            modal.classList.add("modal"); 
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <span class="close-button">&times;</span>
+                    <img src="${imageUrl}" alt="${imageTitle}" class="modal-image">
+                    <p class="modal-title">${imageTitle}</p>
+                </div>
+            `;
+            modalContainer.appendChild(modal);
+            // Display the modal
+            modalContainer.style.display = "block"; 
+            // Close modal when clicking on the close button
+            const closeButton = modal.querySelector(".close-button");
+            closeButton.addEventListener("click", () => {
+                modalContainer.style.display = "none";
+                modalContainer.innerHTML = ""; // Clear the modal content
+            });
+        
+        });
+    });
+}
+
 loadCards();
