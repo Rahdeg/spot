@@ -38,6 +38,7 @@ function initializeModals() {
     bioInput.value = currentProfile.bioValue;
     imagePreview.src = currentProfile.image;
     imagePreview.classList.remove("hidden");
+    nameInput.focus();
   });
 
   // ...
