@@ -119,8 +119,6 @@ export function handleNewPostSubmit(event) {
   const title = titleInput.value.trim();
   const file = imageInput.files[0];
 
-  title.focus();
-
   // Enable or disable save button based on input values and image content
 
   if (!title || !file || !file.type.startsWith("image/")) {
