@@ -42,3 +42,45 @@ function initializeModals() {
 
   // ...
 }
+
+export function openImagePreviewModal(cardData) {
+  const modal = document.getElementById("preview-modal");
+  const previewImage = document.getElementById("preview-image");
+  const previewTitle = document.getElementById("preview-title");
+
+  previewImage.src = cardData.image;
+  previewTitle.textContent = cardData.title;
+
+  modal.classList.remove("hidden");
+  // Small delay to allow transition
+  setTimeout(() => modal.classList.add("show"), 10);
+
+  // Optional: close on background click
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeImagePreviewModal();
+  });
+
+  // Optional: ESC key to close
+  document.addEventListener("keydown", handleEscKey);
+}
+
+export function closeImagePreviewModal() {
+  const modal = document.getElementById("preview-modal");
+  modal.classList.remove("show");
+  setTimeout(() => modal.classList.add("hidden"), 300);
+  document.removeEventListener("keydown", handleEscKey);
+}
+
+function handleEscKey(e) {
+  if (e.key === "Escape") {
+    closeImagePreviewModal();
+  }
+}
+
+// Hook up close button
+document.addEventListener("DOMContentLoaded", () => {
+  const closeBtn = document.getElementById("close-preview-btn");
+  if (closeBtn) {
+    closeBtn.addEventListener("click", closeImagePreviewModal);
+  }
+});

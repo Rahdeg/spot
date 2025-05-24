@@ -1,7 +1,11 @@
 // index.js
-import { handleEditProfileSubmit, updateProfileDisplay } from "./forms.js";
+import { renderCards } from "./cards.js";
+import {
+  handleEditProfileSubmit,
+  handleNewPostSubmit,
+  updateProfileDisplay,
+} from "./forms.js";
 import { openModal } from "./modals.js";
-import { loadCards } from "./script.js";
 
 function initializeModals() {
   // Edit Profile Modal
@@ -10,23 +14,14 @@ function initializeModals() {
     openModal("editProfileModal");
   });
 
-  // Close modals on Escape key
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      document.querySelectorAll(".modal").forEach((modal) => {
-        modal.classList.add("hidden");
-      });
-    }
+  // New Post Modal
+  const newPostButton = document.querySelector(".new-post-btn button");
+  newPostButton.addEventListener("click", () => {
+    openModal("modalBackdrop");
   });
 
-  // Close modals on outside click
-  document.querySelectorAll(".modal").forEach((modal) => {
-    modal.addEventListener("click", (event) => {
-      if (event.target === modal) {
-        modal.classList.add("hidden");
-      }
-    });
-  });
+  const newPostForm = document.getElementById("uploadForm");
+  newPostForm.addEventListener("submit", handleNewPostSubmit);
 
   const editProfileForm = document.getElementById("editProfileForm");
   editProfileForm.addEventListener("submit", handleEditProfileSubmit);
@@ -51,9 +46,27 @@ function initializeModals() {
   });
 }
 
+// Close modals on Escape key
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    document.querySelectorAll(".modal").forEach((modal) => {
+      modal.classList.add("hidden");
+    });
+  }
+});
+
+// Close modals on outside click
+document.querySelectorAll(".modal").forEach((modal) => {
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) {
+      modal.classList.add("hidden");
+    }
+  });
+});
+
 function initializeApp() {
+  renderCards();
   updateProfileDisplay();
-  loadCards();
   initializeModals();
 }
 

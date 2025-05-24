@@ -1,3 +1,12 @@
+import {
+  loadCards,
+  loadProfile,
+  saveCards,
+  saveProfile,
+} from "../scripts/data.js";
+import { renderCards } from "../scripts/cards.js";
+import { closeModal } from "../scripts/modals.js";
+
 export function handleEditProfileSubmit(event) {
   event.preventDefault();
 
@@ -31,22 +40,6 @@ export function handleEditProfileSubmit(event) {
   ) {
     alert("Please provide a valid image file.");
     return;
-  }
-
-  function loadProfile() {
-    const storedProfile = localStorage.getItem("profile");
-    return storedProfile
-      ? JSON.parse(storedProfile)
-      : {
-          name: "Bessie Coleman",
-          occupation: "Civil Aviator",
-          bio: "Bessie Coleman was the first African American",
-          image: "./assets/image 2.svg",
-        };
-  }
-
-  function saveProfile(profile) {
-    localStorage.setItem("profile", JSON.stringify(profile));
   }
 
   const currentProfile = loadProfile();
@@ -104,17 +97,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 export function updateProfileDisplay() {
-  function loadProfile() {
-    const storedProfile = localStorage.getItem("profile");
-    return storedProfile
-      ? JSON.parse(storedProfile)
-      : {
-          name: "Bessie Coleman",
-          occupation: "Civil Aviator",
-          bio: "Bessie Coleman was the first African American",
-          image: "./assets/image 2.svg",
-        };
-  }
   const profile = loadProfile();
   const nameElement = document.querySelector(".about h1");
   const occupationElement = document.querySelector(".about p");
@@ -128,7 +110,69 @@ export function updateProfileDisplay() {
   if (profile.image && avatarImage) avatarImage.src = profile.image;
 }
 
-function closeModal(modalId) {
-  const modal = document.getElementById(modalId);
-  modal.classList.add("hidden");
+// Handle new post form submission (with image file support)
+export function handleNewPostSubmit(event) {
+  event.preventDefault();
+
+  const titleInput = document.getElementById("imageName");
+  const imageInput = document.getElementById("newPostImage");
+  const title = titleInput.value.trim();
+  const file = imageInput.files[0];
+
+  // Enable or disable save button based on input values and image content
+
+  if (!title || !file || !file.type.startsWith("image/")) {
+    alert("Please provide a valid title and image file.");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    const image = reader.result;
+
+    const cards = loadCards();
+    const newCard = {
+      id: Date.now(),
+      title,
+      image,
+      liked: false,
+    };
+
+    cards.unshift(newCard);
+    saveCards(cards);
+    renderCards();
+    closeModal("modalBackdrop");
+
+    event.target.reset();
+    document.getElementById("newPostImagePreview").classList.add("hidden");
+  };
+
+  reader.readAsDataURL(file);
 }
+
+// Preview post image and cancel new post modal
+document.addEventListener("DOMContentLoaded", () => {
+  const newPostImageInput = document.getElementById("newPostImage");
+  const newPostImagePreview = document.getElementById("newPostImagePreview");
+  const cancelNewPostBtn = document.getElementById("newPostCancelBtn");
+
+  if (newPostImageInput && newPostImagePreview) {
+    newPostImageInput.addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      if (file && file.type.startsWith("image/")) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          newPostImagePreview.src = reader.result;
+          newPostImagePreview.classList.remove("hidden");
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  if (cancelNewPostBtn) {
+    cancelNewPostBtn.addEventListener("click", () => {
+      document.getElementById("modalBackdrop").classList.add("hidden");
+    });
+  }
+});
